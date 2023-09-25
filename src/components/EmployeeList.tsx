@@ -1,38 +1,39 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+interface Employee {
+    firstName: string;
+    lastName: string;
+    // Add other fields here
+}
+
 const EmployeeList: React.FC = () => {
-    const [employees, setEmployees] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [employees, setEmployees] = useState<Employee[]>([]);
 
     useEffect(() => {
-        // Mock API URL (replace with your actual backend API URL)
-        const apiUrl = 'http://localhost:8080/api/employees';
-
-        axios.get(apiUrl)
+        // Fetch the list of employees from the backend
+        axios
+            .get<Employee[]>('http://localhost:8080/api/employees')
             .then((response) => {
                 setEmployees(response.data);
-                setLoading(false);
             })
             .catch((error) => {
-                console.error('Error fetching data:', error);
-                setLoading(false);
+                console.error('Error fetching employees:', error);
             });
-    }, []);
+    }, []); // The empty array means this effect runs once on component mount
 
     return (
         <div>
             <h2>Employee List</h2>
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                <ul>
-                    {employees.map((employee: any) => (
-                        <li key={employee.id}>{employee.name}</li>
-                    ))}
-                </ul>
-            )}
+            <ul>
+                {employees.map((employee, index) => (
+                    <li key={index}>
+                        <strong>First Name:</strong> {employee.firstName}<br />
+                        <strong>Last Name:</strong> {employee.lastName}<br />
+                        {/* Add additional fields here */}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
