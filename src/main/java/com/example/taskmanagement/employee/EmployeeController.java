@@ -8,22 +8,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/employees")
+@CrossOrigin(origins = "http://localhost:3000") // Replace with your frontend's URL
 public class EmployeeController {
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private EmployeeSSEController employeeSSEController;
+
     // Endpoint to create a new employee
     @PostMapping
     public Employee createEmployee(@RequestBody Employee employee) {
+        System.out.println("Received data from frontend: " + employee.getFirstName() + employee.getLastName() + employee.getEmail()+ employee.getDepartment());
+        try{
+            Employee savedEmployee = employeeRepository.save(employee);
+            employeeSSEController.sendEmployeeUpdate(savedEmployee); // Send SSE update
+            return savedEmployee;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return employeeRepository.save(employee);
     }
+
+
+
+
+
 
     // Endpoint to retrieve all employees
     @GetMapping
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+        List<Employee> employees = employeeRepository.findAll();
+        System.out.println("Number of employees retrieved: " + employees.size());
+        return employees;
     }
+
 
     // Endpoint to retrieve an employee by ID
     @GetMapping("/{id}")
@@ -45,6 +66,7 @@ public class EmployeeController {
                 })
                 .orElseThrow(() -> new EmployeeNotFoundException(id));
     }
+
 
     // Endpoint to delete an employee by ID
     @DeleteMapping("/{id}")
