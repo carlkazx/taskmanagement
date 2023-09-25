@@ -4,6 +4,8 @@ import axios from 'axios';
 interface Employee {
     firstName: string;
     lastName: string;
+    email: string;
+    department: string;
     // Add other fields here
 }
 
@@ -30,6 +32,8 @@ const EmployeeList: React.FC = () => {
                     <li key={index}>
                         <strong>First Name:</strong> {employee.firstName}<br />
                         <strong>Last Name:</strong> {employee.lastName}<br />
+                        <strong>Email:</strong> {employee.email}<br />
+                        <strong>Department:</strong> {employee.department}<br />
                         {/* Add additional fields here */}
                     </li>
                 ))}

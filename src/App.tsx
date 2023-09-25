@@ -2,21 +2,21 @@
 
 import React from 'react';
 import './App.css';
+import EmployeeSSEListener from './components/EmployeeSSEListener';
 import EmployeeForm from './components/EmployeeForm';
 import EmployeeList from './components/EmployeeList';
 
-function App() {
+
+const App: React.FC = () => {
     return (
-        <div className="App">
-            <header className="App-header">
-                <h1>Employee Task Management System</h1>
-            </header>
-            <main>
-                <EmployeeForm />
-                <EmployeeList />
-            </main>
+        <div>
+            <EmployeeSSEListener />
+            <h1>Employee Task Management</h1>
+            <EmployeeForm />
+            <EmployeeList />
         </div>
     );
-}
+};
+
 
 export default App;
