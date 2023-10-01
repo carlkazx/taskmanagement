@@ -1,10 +1,10 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataInvoices } from "../../data/mockData";
+import { mockDataTask } from "../../data/mockData";
 import Header from "../../components/Header";
 
-const Invoices = () => {
+const Task = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
@@ -74,10 +74,10 @@ const Invoices = () => {
                     },
                 }}
             >
-                <DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
+                <DataGrid checkboxSelection rows={mockDataTask} columns={columns} />
             </Box>
         </Box>
     );
 };
 
-export default Invoices;
+export default Task;

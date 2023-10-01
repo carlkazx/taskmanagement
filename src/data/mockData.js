@@ -199,7 +199,7 @@ export const mockDataContacts = [
     },
 ];
 
-export const mockDataInvoices = [
+export const mockDataTask = [
     {
         id: 1,
         name: "Jon Snow",
@@ -266,54 +266,54 @@ export const mockDataInvoices = [
     },
 ];
 
-export const mockTransactions = [
+export const mockTask = [
     {
-        txId: "01e4dsa",
-        user: "johndoe",
+        txId: "T-545",
+        assignedTo: "johndoe",
         date: "2021-09-01",
-        cost: "43.95",
+        status: "Completed",
     },
     {
-        txId: "0315dsaa",
-        user: "jackdower",
+        txId: "S-245",
+        assignedTo: "jackdower",
         date: "2022-04-01",
-        cost: "133.45",
+        status: "Completed",
     },
     {
-        txId: "01e4dsa",
-        user: "aberdohnny",
+        txId: "N-247",
+        assignedTo: "aberdohnny",
         date: "2021-09-01",
-        cost: "43.95",
+        status: "Completed",
     },
     {
-        txId: "51034szv",
-        user: "goodmanave",
+        txId: "H-345",
+        assignedTo: "goodmanave",
         date: "2022-11-05",
-        cost: "200.95",
+        status: "Completed",
     },
     {
-        txId: "0a123sb",
-        user: "stevebower",
+        txId: "S-274",
+        assignedTo: "stevebower",
         date: "2022-11-02",
-        cost: "13.55",
+        status: "Completed",
     },
     {
-        txId: "01e4dsa",
-        user: "aberdohnny",
+        txId: "N-865",
+        assignedTo: "aberdohnny",
         date: "2021-09-01",
-        cost: "43.95",
+        status: "Completed",
     },
     {
-        txId: "120s51a",
-        user: "wootzifer",
+        txId: "T-060",
+        assignedTo: "wootzifer",
         date: "2019-04-15",
-        cost: "24.20",
+        status: "Completed",
     },
     {
-        txId: "0315dsaa",
-        user: "jackdower",
+        txId: "H-968",
+        assignedTo: "jackdower",
         date: "2022-04-01",
-        cost: "133.45",
+        status: "Completed",
     },
 ];
 

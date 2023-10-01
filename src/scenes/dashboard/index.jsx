@@ -1,17 +1,19 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
+import { mockTask } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import AssignmentReturnedOutlinedIcon from '@mui/icons-material/AssignmentReturnedOutlined';
+import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined';
+import BrowseGalleryOutlinedIcon from '@mui/icons-material/BrowseGalleryOutlined';
 import TrafficIcon from "@mui/icons-material/Traffic";
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
-import ProgressCircle from "../../components/ProgressCircle";
+
+
+
 
 const Dashboard = () => {
     const theme = useTheme();
@@ -46,21 +48,21 @@ const Dashboard = () => {
                 gridAutoRows="140px"
                 gap="20px"
             >
+                <Box
+                    gridColumn="span 3"
+                    backgroundColor={colors.primary[400]}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                >
                 {/* ROW 1 */}
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor={colors.primary[400]}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
+
                     <StatBox
-                        title="12,361"
-                        subtitle="Emails Sent"
-                        progress="0.75"
-                        increase="+14%"
+                        title="New Task"
+                        subtitle="4"
+
                         icon={
-                            <EmailIcon
+                            <AssignmentReturnedOutlinedIcon
                                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
                             />
                         }
@@ -74,12 +76,10 @@ const Dashboard = () => {
                     justifyContent="center"
                 >
                     <StatBox
-                        title="431,225"
-                        subtitle="Sales Obtained"
-                        progress="0.50"
-                        increase="+21%"
+                        title="Urgent Task"
+                        subtitle="2"
                         icon={
-                            <PointOfSaleIcon
+                            <AssignmentLateOutlinedIcon
                                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
                             />
                         }
@@ -93,12 +93,11 @@ const Dashboard = () => {
                     justifyContent="center"
                 >
                     <StatBox
-                        title="32,441"
-                        subtitle="New Clients"
+                        title="Overtime Hours"
+                        subtitle="5 hours left"
                         progress="0.30"
-                        increase="+5%"
                         icon={
-                            <PersonAddIcon
+                            <BrowseGalleryOutlinedIcon
                                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
                             />
                         }
@@ -126,13 +125,13 @@ const Dashboard = () => {
 
                 {/* ROW 2 */}
                 <Box
-                    gridColumn="span 8"
-                    gridRow="span 2"
+                    gridColumn="span 7"
+                    gridRow="span 3"
                     backgroundColor={colors.primary[400]}
                 >
                     <Box
                         mt="25px"
-                        p="0 30px"
+                        p="10px 40px"
                         display="flex "
                         justifyContent="space-between"
                         alignItems="center"
@@ -143,26 +142,30 @@ const Dashboard = () => {
                                 fontWeight="600"
                                 color={colors.grey[100]}
                             >
-                                Revenue Generated
+                                Calendar
                             </Typography>
                             <Typography
                                 variant="h3"
                                 fontWeight="bold"
                                 color={colors.greenAccent[500]}
                             >
-                                $59,342.32
                             </Typography>
                         </Box>
                         <Box>
                             <IconButton>
-                                <DownloadOutlinedIcon
-                                    sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                                />
+                                <add-to-calendar-button
+                                    name="Add the title of your event"
+                                    startDate="2022-02-21"
+                                    options="['Google']"
+                                >
+                                </add-to-calendar-button>
                             </IconButton>
                         </Box>
                     </Box>
-                    <Box height="250px" m="-20px 0 0 0">
-                        <LineChart isDashboard={true} />
+                    <Box height="100px" m="10px 50px 50px 50px">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DateCalendar isDashboard={true} />
+                        </LocalizationProvider>
                     </Box>
                 </Box>
                 <Box
@@ -180,12 +183,12 @@ const Dashboard = () => {
                         p="15px"
                     >
                         <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-                            Recent Transactions
+                            Completed Tasks
                         </Typography>
                     </Box>
-                    {mockTransactions.map((transaction, i) => (
+                    {mockTask.map((task, i) => (
                         <Box
-                            key={`${transaction.txId}-${i}`}
+                            key={`${task.txId}-${i}`}
                             display="flex"
                             justifyContent="space-between"
                             alignItems="center"
@@ -198,87 +201,29 @@ const Dashboard = () => {
                                     variant="h5"
                                     fontWeight="600"
                                 >
-                                    {transaction.txId}
+                                    {task.txId}
                                 </Typography>
                                 <Typography color={colors.grey[100]}>
-                                    {transaction.user}
+                                    {task.assignedTo}
                                 </Typography>
                             </Box>
-                            <Box color={colors.grey[100]}>{transaction.date}</Box>
+                            <Box color={colors.grey[100]}>{task.date}</Box>
                             <Box
                                 backgroundColor={colors.greenAccent[500]}
                                 p="5px 10px"
                                 borderRadius="4px"
                             >
-                                ${transaction.cost}
+                                <Typography color={colors.grey[100]}>
+                                    {task.status}
+                                </Typography>
                             </Box>
                         </Box>
                     ))}
                 </Box>
 
-                {/* ROW 3 */}
-                <Box
-                    gridColumn="span 4"
-                    gridRow="span 2"
-                    backgroundColor={colors.primary[400]}
-                    p="30px"
-                >
-                    <Typography variant="h5" fontWeight="600">
-                        Campaign
-                    </Typography>
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        mt="25px"
-                    >
-                        <ProgressCircle size="125" />
-                        <Typography
-                            variant="h5"
-                            color={colors.greenAccent[500]}
-                            sx={{ mt: "15px" }}
-                        >
-                            $48,352 revenue generated
-                        </Typography>
-                        <Typography>Includes extra misc expenditures and costs</Typography>
-                    </Box>
-                </Box>
-                <Box
-                    gridColumn="span 4"
-                    gridRow="span 2"
-                    backgroundColor={colors.primary[400]}
-                >
-                    <Typography
-                        variant="h5"
-                        fontWeight="600"
-                        sx={{ padding: "30px 30px 0 30px" }}
-                    >
-                        Sales Quantity
-                    </Typography>
-                    <Box height="250px" mt="-20px">
-                        <BarChart isDashboard={true} />
-                    </Box>
-                </Box>
-                <Box
-                    gridColumn="span 4"
-                    gridRow="span 2"
-                    backgroundColor={colors.primary[400]}
-                    padding="30px"
-                >
-                    <Typography
-                        variant="h5"
-                        fontWeight="600"
-                        sx={{ marginBottom: "15px" }}
-                    >
-                        Geography Based Traffic
-                    </Typography>
-                    <Box height="200px">
-                        <GeographyChart isDashboard={true} />
-                    </Box>
-                </Box>
             </Box>
         </Box>
-    );
+    )
 };
 
 export default Dashboard;
