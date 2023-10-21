@@ -1,12 +1,11 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTask } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import AssignmentReturnedOutlinedIcon from '@mui/icons-material/AssignmentReturnedOutlined';
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined';
 import BrowseGalleryOutlinedIcon from '@mui/icons-material/BrowseGalleryOutlined';
-import TrafficIcon from "@mui/icons-material/Traffic";
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Header from "../../components/Header";
@@ -44,9 +43,9 @@ const Dashboard = () => {
             {/* GRID & CHARTS */}
             <Box
                 display="grid"
-                gridTemplateColumns="repeat(12, 1fr)"
-                gridAutoRows="140px"
-                gap="20px"
+                gridTemplateColumns="repeat(10, 1fr)"
+                gridAutoRows="200px"
+                gap="50px"
             >
                 <Box
                     gridColumn="span 3"
@@ -103,68 +102,16 @@ const Dashboard = () => {
                         }
                     />
                 </Box>
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor={colors.primary[400]}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <StatBox
-                        title="1,325,134"
-                        subtitle="Traffic Received"
-                        progress="0.80"
-                        increase="+43%"
-                        icon={
-                            <TrafficIcon
-                                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-                            />
-                        }
-                    />
-                </Box>
 
                 {/* ROW 2 */}
                 <Box
-                    gridColumn="span 7"
-                    gridRow="span 3"
+                    gridColumn="span 5"
+                    gridRow="span 2"
                     backgroundColor={colors.primary[400]}
                 >
-                    <Box
-                        mt="25px"
-                        p="10px 40px"
-                        display="flex "
-                        justifyContent="space-between"
-                        alignItems="center"
-                    >
-                        <Box>
-                            <Typography
-                                variant="h5"
-                                fontWeight="600"
-                                color={colors.grey[100]}
-                            >
-                                Calendar
-                            </Typography>
-                            <Typography
-                                variant="h3"
-                                fontWeight="bold"
-                                color={colors.greenAccent[500]}
-                            >
-                            </Typography>
-                        </Box>
-                        <Box>
-                            <IconButton>
-                                <add-to-calendar-button
-                                    name="Add the title of your event"
-                                    startDate="2022-02-21"
-                                    options="['Google']"
-                                >
-                                </add-to-calendar-button>
-                            </IconButton>
-                        </Box>
-                    </Box>
-                    <Box height="100px" m="10px 50px 50px 50px">
+                    <Box height="50px" m="0px 0px 0px 0px">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DateCalendar isDashboard={true} />
+                            <StaticDatePicker isDashboard={true} />
                         </LocalizationProvider>
                     </Box>
                 </Box>

@@ -201,121 +201,123 @@ export const mockDataContacts = [
 
 export const mockDataTask = [
     {
-        id: 1,
-        name: "Jon Snow",
-        email: "jonsnow@gmail.com",
-        cost: "21.24",
-        phone: "(665)121-5454",
-        date: "03/12/2022",
-    },
-    {
-        id: 2,
-        name: "Cersei Lannister",
-        email: "cerseilannister@gmail.com",
-        cost: "1.24",
-        phone: "(421)314-2288",
-        date: "06/15/2021",
-    },
-    {
-        id: 3,
-        name: "Jaime Lannister",
-        email: "jaimelannister@gmail.com",
-        cost: "11.24",
-        phone: "(422)982-6739",
-        date: "05/02/2022",
-    },
-    {
-        id: 4,
-        name: "Anya Stark",
-        email: "anyastark@gmail.com",
-        cost: "80.55",
-        phone: "(921)425-6742",
-        date: "03/21/2022",
-    },
-    {
-        id: 5,
-        name: "Daenerys Targaryen",
-        email: "daenerystargaryen@gmail.com",
-        cost: "1.24",
-        phone: "(421)445-1189",
-        date: "01/12/2021",
-    },
-    {
-        id: 6,
-        name: "Ever Melisandre",
-        email: "evermelisandre@gmail.com",
-        cost: "63.12",
-        phone: "(232)545-6483",
-        date: "11/02/2022",
-    },
-    {
-        id: 7,
-        name: "Ferrara Clifford",
-        email: "ferraraclifford@gmail.com",
-        cost: "52.42",
-        phone: "(543)124-0123",
-        date: "02/11/2022",
-    },
-    {
-        id: 8,
-        name: "Rossini Frances",
-        email: "rossinifrances@gmail.com",
-        cost: "21.24",
-        phone: "(222)444-5555",
-        date: "05/02/2021",
-    },
-];
-
-export const mockTask = [
-    {
         txId: "T-545",
         assignedTo: "johndoe",
         date: "2021-09-01",
-        status: "Completed",
+        priority: "High",
+        status: "Open",
     },
     {
         txId: "S-245",
         assignedTo: "jackdower",
         date: "2022-04-01",
-        status: "Completed",
+        priority: "Medium",
+        status: "In Progress",
     },
     {
         txId: "N-247",
         assignedTo: "aberdohnny",
         date: "2021-09-01",
+        priority: "Low",
         status: "Completed",
     },
     {
         txId: "H-345",
         assignedTo: "goodmanave",
         date: "2022-11-05",
-        status: "Completed",
+        priority: "High",
+        status: "Open",
     },
     {
         txId: "S-274",
         assignedTo: "stevebower",
         date: "2022-11-02",
-        status: "Completed",
+        priority: "Medium",
+        status: "In Progress",
     },
     {
         txId: "N-865",
         assignedTo: "aberdohnny",
         date: "2021-09-01",
+        priority: "Low",
         status: "Completed",
     },
     {
         txId: "T-060",
         assignedTo: "wootzifer",
         date: "2019-04-15",
-        status: "Completed",
+        priority: "High",
+        status: "Open",
     },
     {
         txId: "H-968",
         assignedTo: "jackdower",
         date: "2022-04-01",
-        status: "Completed",
+        priority: "Medium",
+        status: "In Progress",
     },
 ];
+
+
+export const mockTask = [
+    {
+        txId: "T-545",
+        assignedTo: "johndoe",
+        date: "2021-09-01",
+        priority: "High",
+        status: "Open",
+    },
+    {
+        txId: "S-245",
+        assignedTo: "jackdower",
+        date: "2022-04-01",
+        priority: "Medium",
+        status: "In Progress",
+    },
+    {
+        txId: "N-247",
+        assignedTo: "aberdohnny",
+        date: "2021-09-01",
+        priority: "Low",
+        status: "Completed",
+    },
+    {
+        txId: "H-345",
+        assignedTo: "goodmanave",
+        date: "2022-11-05",
+        priority: "High",
+        status: "Open",
+    },
+    {
+        txId: "S-274",
+        assignedTo: "stevebower",
+        date: "2022-11-02",
+        priority: "Medium",
+        status: "In Progress",
+    },
+    {
+        txId: "N-865",
+        assignedTo: "aberdohnny",
+        date: "2021-09-01",
+        priority: "Low",
+        status: "Completed",
+    },
+    {
+        txId: "T-060",
+        assignedTo: "wootzifer",
+        date: "2019-04-15",
+        priority: "High",
+        status: "Open",
+    },
+    {
+        txId: "H-968",
+        assignedTo: "jackdower",
+        date: "2022-04-01",
+        priority: "Medium",
+        status: "In Progress",
+    },
+];
+
 
 export const mockBarData = [
     {
