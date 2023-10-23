@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { mockTask } from "../../data/mockData";
 import { DataGrid } from '@mui/x-data-grid'; // Import the DataGrid component
@@ -35,7 +34,7 @@ const ViewTasksPage = () => {
     };
 
     // Transform task data for DataGrid
-    const rows = tasks.map((task, index) => ({
+    tasks.map((task, index) => ({
         id: index + 1,
         txId: task.txId,
         assignedTo: task.assignedTo,
@@ -43,8 +42,7 @@ const ViewTasksPage = () => {
         status: task.status,
         priority: task.priority,
     }));
-
-    // Define columns for DataGrid
+// Define columns for DataGrid
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'txId', headerName: 'Transaction ID', width: 200 },

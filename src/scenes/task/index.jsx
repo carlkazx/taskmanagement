@@ -1,4 +1,4 @@
-import { Box, TextField, Select, MenuItem, FormControl, InputLabel, Button, Link, useTheme } from "@mui/material";
+import {Box, TextField, Select, MenuItem, FormControl, InputLabel, Button, Link, useTheme, styled} from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -11,6 +11,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
 
+
+
+
 const Form = () => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const theme = useTheme();
@@ -18,7 +21,7 @@ const Form = () => {
 
     const initialValues = {
         taskName: '',
-        taskDetail: '',
+        taskDescription: '',
         startDate: dayjs('2022-04-17'),
         dueDate: dayjs('2022-04-17'),
         priority: 'medium',
@@ -37,8 +40,25 @@ const Form = () => {
 
     const handleFormSubmit = (values) => {
         console.log(values);
-        // Implement logic to submit the form data (e.g., API request, state update)
+        // Implement logic to submit the newemployee data (e.g., API request, state update)
     };
+
+    const CustomInputLabel = styled(InputLabel)(({ theme }) => ({
+        color: colors.grey["300"], // Change this to the desired text color
+        '&.Mui-focused': {
+            color: colors.grey["300"], // Change this to the desired text color when focused
+        },
+    }));
+
+    const CustomDatePicker = styled(DatePicker)({
+        '& .MuiInputLabel-root': {
+            color: colors.grey["300"], // Change this to the desired text color
+        },
+        '& .MuiInputLabel-root.Mui-focused': {
+            color: colors.grey["300"], // Change this to the desired text color when focused
+        },
+    });
+
 
     return (
         <Box m="20px">
@@ -62,14 +82,14 @@ const Form = () => {
                         <Box
                             display="grid"
                             gap="30px"
-                            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                            gridTemplateColumns="repeat(3, minmax(1, 1fr))"
                             sx={{
                                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
                             }}
                         >
                             <TextField
                                 fullWidth
-                                variant="filled"
+                                variant="outlined"
                                 type="text"
                                 label="Task Name"
                                 onBlur={handleBlur}
@@ -78,24 +98,30 @@ const Form = () => {
                                 name="taskName"
                                 error={!!touched.taskName && !!errors.taskName}
                                 helperText={touched.taskName && errors.taskName}
-                                sx={{ gridColumn: "span 1" }}
+                                sx={{ gridColumn: "span 2" }}
+                                InputLabelProps={{
+                                    style: {color: values.taskName ? 'white' : 'grey'}
+                                }}
                             />
                             <TextField
                                 fullWidth
-                                variant="filled"
+                                variant="outlined"
                                 type="text"
-                                label="Task Detail"
+                                label="Description"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 value={values.taskDetail}
-                                name="taskDetail"
+                                name="taskDescription"
                                 multiline
-                                error={!!touched.taskDetail && !!errors.taskDetail}
-                                helperText={touched.taskDetail && errors.taskDetail}
-                                sx={{ gridColumn: "span 1"}}
+                                error={!!touched.taskDescription && !!errors.taskDescription}
+                                helperText={touched.taskDescription && errors.taskDescription}
+                                sx={{ gridColumn: "span 2"}}
+                                InputLabelProps={{
+                                    style: {color: values.taskName ? 'white' : 'grey'}
+                                }}
                             />
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
+                                <CustomDatePicker
                                     label="Start Date"
                                     value={values.startDate}
                                     onChange={(date) => handleChange({ target: { name: 'startDate', value: date } })}
@@ -104,21 +130,25 @@ const Form = () => {
                             </LocalizationProvider>
 
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
+                                <CustomDatePicker
                                     label="Due Date"
                                     value={values.dueDate}
                                     onChange={(date) => handleChange({ target: { name: 'dueDate', value: date } })}
                                     sx={{ gridColumn: "span 1" }}
                                 />
                             </LocalizationProvider>
+
                             <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 1" }}>
-                                <InputLabel>Priority</InputLabel>
+                                <CustomInputLabel>
+                                    Priority
+                                </CustomInputLabel>
                                 <Select
                                     name="priority"
                                     value={values.priority}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     error={!!touched.priority && !!errors.priority}
+
                                 >
                                     <MenuItem value="high">High</MenuItem>
                                     <MenuItem value="medium">Medium</MenuItem>
@@ -126,7 +156,9 @@ const Form = () => {
                                 </Select>
                             </FormControl>
                             <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 1" }}>
-                                <InputLabel>Status</InputLabel>
+                                <CustomInputLabel>
+                                    Status
+                                </CustomInputLabel>
                                 <Select
                                     name="status"
                                     value={values.status}
