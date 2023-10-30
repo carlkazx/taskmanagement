@@ -1,14 +1,12 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box,Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTask } from "../../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import AssignmentReturnedOutlinedIcon from '@mui/icons-material/AssignmentReturnedOutlined';
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined';
 import BrowseGalleryOutlinedIcon from '@mui/icons-material/BrowseGalleryOutlined';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
 
 
@@ -22,22 +20,6 @@ const Dashboard = () => {
         <Box m="20px">
             {/* HEADER */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-
-                <Box>
-                    <Button
-                        sx={{
-                            backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100],
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "10px 20px",
-                        }}
-                    >
-                        <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-                        Download Reports
-                    </Button>
-                </Box>
             </Box>
 
             {/* GRID & CHARTS */}
@@ -54,7 +36,7 @@ const Dashboard = () => {
                     alignItems="center"
                     justifyContent="center"
                 >
-                {/* ROW 1 */}
+                    {/* ROW 1 */}
 
                     <StatBox
                         title="New Task"
@@ -105,11 +87,11 @@ const Dashboard = () => {
 
                 {/* ROW 2 */}
                 <Box
-                    gridColumn="span 5"
+                    gridColumn="span 4"
                     gridRow="span 2"
                     backgroundColor={colors.primary[400]}
                 >
-                    <Box height="50px" m="0px 0px 0px 0px">
+                    <Box height="10px" m="0px 0px 0px 0px">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <StaticDatePicker isDashboard={true} />
                         </LocalizationProvider>

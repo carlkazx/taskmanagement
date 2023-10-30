@@ -9,8 +9,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
-import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
-
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 
 
 
@@ -81,8 +81,8 @@ const Form = () => {
                     <form onSubmit={handleSubmit}>
                         <Box
                             display="grid"
-                            gap="30px"
-                            gridTemplateColumns="repeat(3, minmax(1, 1fr))"
+                            gap="55px"
+                            gridTemplateColumns="repeat(3, minmax(0, 1fr))"
                             sx={{
                                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
                             }}
@@ -103,40 +103,6 @@ const Form = () => {
                                     style: {color: values.taskName ? 'white' : 'grey'}
                                 }}
                             />
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                type="text"
-                                label="Description"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.taskDetail}
-                                name="taskDescription"
-                                multiline
-                                error={!!touched.taskDescription && !!errors.taskDescription}
-                                helperText={touched.taskDescription && errors.taskDescription}
-                                sx={{ gridColumn: "span 2"}}
-                                InputLabelProps={{
-                                    style: {color: values.taskName ? 'white' : 'grey'}
-                                }}
-                            />
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <CustomDatePicker
-                                    label="Start Date"
-                                    value={values.startDate}
-                                    onChange={(date) => handleChange({ target: { name: 'startDate', value: date } })}
-                                    sx={{ gridColumn: "span 1" }}
-                                />
-                            </LocalizationProvider>
-
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <CustomDatePicker
-                                    label="Due Date"
-                                    value={values.dueDate}
-                                    onChange={(date) => handleChange({ target: { name: 'dueDate', value: date } })}
-                                    sx={{ gridColumn: "span 1" }}
-                                />
-                            </LocalizationProvider>
 
                             <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 1" }}>
                                 <CustomInputLabel>
@@ -155,33 +121,27 @@ const Form = () => {
                                     <MenuItem value="low">Low</MenuItem>
                                 </Select>
                             </FormControl>
-                            <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 1" }}>
-                                <CustomInputLabel>
-                                    Status
-                                </CustomInputLabel>
-                                <Select
-                                    name="status"
-                                    value={values.status}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={!!touched.status && !!errors.status}
-                                >
-                                    <MenuItem value="open">Open</MenuItem>
-                                    <MenuItem value="inProgress">In Progress</MenuItem>
-                                    <MenuItem value="completed">Completed</MenuItem>
-                                </Select>
-                            </FormControl>
+
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <CustomDatePicker
+                                    label="Due Date"
+                                    value={values.dueDate}
+                                    onChange={(date) => handleChange({ target: { name: 'dueDate', value: date } })}
+                                    sx={{ gridColumn: "span 1" }}
+                                />
+                            </LocalizationProvider>
+
                             {/* Assignee Dropdown */}
                             {/* Collaborators */}
-                            <input
-                                type="file"
-                                accept=".pdf,.doc,.docx,.jpg,.png"
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    handleChange({ target: { name: 'attachments', value: file } });
-                                }}
 
+                            <ReactQuill
+                                value={values.taskDescription}
+                                onChange={(value) =>
+                                    handleChange({ target: { name: "taskDescription", value } })
+                                }
+                                style={{ gridColumn:"span 4", height: '200px', width:'735px'}}
                             />
+
                             <Button
                                 type="submit"
                                 variant="contained"
@@ -191,26 +151,12 @@ const Form = () => {
                                     fontSize: "14px",
                                     fontWeight: "bold",
                                     padding: "10px 20px",
+                                    gridColumn:"span 1",
                                 }}
                             >
                                 <ArrowUpwardOutlinedIcon sx={{ mr: "10px" }} />
                                 Submit
                             </Button>
-                            <Button
-                                type="button"
-                                variant="outlined"
-                                sx={{
-                                    backgroundColor: colors.redAccent[500],
-                                    color: colors.grey[100],
-                                    fontSize: "14px",
-                                    fontWeight: "bold",
-                                    padding: "10px 20px",
-                                }}
-                            >
-                                <DoDisturbOnOutlinedIcon sx={{ mr: "10px" }} />
-                                Cancel
-                            </Button>
-
                         </Box>
                     </form>
                 )}

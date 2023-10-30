@@ -1,127 +1,153 @@
-import React, { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import { mockTask } from "../../data/mockData";
-import { DataGrid } from '@mui/x-data-grid'; // Import the DataGrid component
+import * as React from 'react';
+import {
+    DataGrid,
+    gridPageCountSelector,
+    gridPageSelector,
+    useGridApiContext,
+    useGridSelector,
+} from '@mui/x-data-grid';
+import { styled } from '@mui/material/styles';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
+import {mockDataTask} from "../../data/mockData";
 
-const ViewTasksPage = () => {
-    const [tasks, setTasks] = useState([]);
-    const [selectedTask, setSelectedTask] = useState(null);
-    const [filters, setFilters] = useState({
-        priority: 'all',
-        status: 'all',
-    });
-    const [searchTerm, setSearchTerm] = useState('');
-
-    // Use mockTask as the initial task data
-    useEffect(() => {
-        setTasks(mockTask);
-    }, []);
-
-    // Function to handle selecting a task
-    const handleTaskClick = (task) => {
-        setSelectedTask(task);
+function customCheckbox(theme) {
+    return {
+        '& .MuiCheckbox-root svg': {
+            width: 16,
+            height: 16,
+            backgroundColor: 'transparent',
+            border: `1px solid ${
+                theme.palette.mode === 'light' ? '#d9d9d9' : 'rgb(67, 67, 67)'
+            }`,
+            borderRadius: 2,
+        },
+        '& .MuiCheckbox-root svg path': {
+            display: 'none',
+        },
+        '& .MuiCheckbox-root.Mui-checked:not(.MuiCheckbox-indeterminate) svg': {
+            backgroundColor: '#1890ff',
+            borderColor: '#1890ff',
+        },
+        '& .MuiCheckbox-root.Mui-checked .MuiIconButton-label:after': {
+            position: 'absolute',
+            display: 'table',
+            border: '2px solid #fff',
+            borderTop: 0,
+            borderLeft: 0,
+            transform: 'rotate(45deg) translate(-50%,-50%)',
+            opacity: 1,
+            transition: 'all .2s cubic-bezier(.12,.4,.29,1.46) .1s',
+            content: '""',
+            top: '50%',
+            left: '39%',
+            width: 5.71428571,
+            height: 9.14285714,
+        },
+        '& .MuiCheckbox-root.MuiCheckbox-indeterminate .MuiIconButton-label:after': {
+            width: 8,
+            height: 8,
+            backgroundColor: '#1890ff',
+            transform: 'none',
+            top: '39%',
+            border: 0,
+        },
     };
+}
 
-    // Function to handle filtering tasks
-    const handleFilterChange = (filterName, value) => {
-        setFilters({ ...filters, [filterName]: value });
-    };
+const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+    border: 0,
+    color:
+        theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.85)',
+    fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+    ].join(','),
+    WebkitFontSmoothing: 'auto',
+    letterSpacing: 'normal',
+    '& .MuiDataGrid-columnsContainer': {
+        backgroundColor: theme.palette.mode === 'light' ? '#fafafa' : '#1d1d1d',
+    },
+    '& .MuiDataGrid-iconSeparator': {
+        display: 'none',
+    },
+    '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
+        borderRight: `1px solid ${
+            theme.palette.mode === 'light' ? '#f0f0f0' : '#303030'
+        }`,
+    },
+    '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
+        borderBottom: `1px solid ${
+            theme.palette.mode === 'light' ? '#f0f0f0' : '#303030'
+        }`,
+    },
+    '& .MuiDataGrid-cell': {
+        color:
+            theme.palette.mode === 'light' ? 'rgba(0,0,0,.85)' : 'rgba(255,255,255,0.65)',
+    },
+    '& .MuiPaginationItem-root': {
+        borderRadius: 0,
+    },
+    ...customCheckbox(theme),
+}));
 
-    // Function to handle searching tasks
-    const handleSearch = (searchTerm) => {
-        setSearchTerm(searchTerm);
-    };
-
-    // Transform task data for DataGrid
-    tasks.map((task, index) => ({
-        id: index + 1,
-        txId: task.txId,
-        assignedTo: task.assignedTo,
-        date: task.date,
-        status: task.status,
-        priority: task.priority,
-    }));
-// Define columns for DataGrid
-    const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'txId', headerName: 'Transaction ID', width: 200 },
-        { field: 'assignedTo', headerName: 'Assigned To', width: 150 },
-        { field: 'date', headerName: 'Date', width: 150 },
-        { field: 'status', headerName: 'Status', width: 150 },
-        { field: 'priority', headerName: 'Priority', width: 150 },
-    ];
-
-    // Filtering and searching logic
-    const filteredTasks = tasks
-        .filter((task) => filters.priority === 'all' || task.priority === filters.priority)
-        .filter((task) => filters.status === 'all' || task.status === filters.status)
-        .filter((task) => searchTerm === '' ||
-            task.txId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            task.assignedTo.toLowerCase().includes(searchTerm.toLowerCase()));
+function CustomPagination() {
+    const apiRef = useGridApiContext();
+    const page = useGridSelector(apiRef, gridPageSelector);
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector);
 
     return (
-        <div>
-            <h1>View Tasks</h1>
+        <Pagination
+            color="primary"
+            variant="outlined"
+            shape="rounded"
+            page={page + 1}
+            count={pageCount}
+            // @ts-expect-error
+            renderItem={(props2) => <PaginationItem {...props2} disableRipple />}
+            onChange={(event, value) => apiRef.current.setPage(value - 1)}
+        />
+    );
+}
 
-            {/* Task Filters */}
-            <div>
-                <TextField
-                    select
-                    label="Priority"
-                    value={filters.priority}
-                    onChange={(e) => handleFilterChange('priority', e.target.value)}
-                >
-                    <MenuItem value="all">All</MenuItem>
-                    <MenuItem value="High">High</MenuItem>
-                    <MenuItem value="Medium">Medium</MenuItem>
-                    <MenuItem value="Low">Low</MenuItem>
-                </TextField>
-            </div>
+const PAGE_SIZE = 5;
 
-            <div>
-                <TextField
-                    select
-                    label="Status"
-                    value={filters.status}
-                    onChange={(e) => handleFilterChange('status', e.target.value)}
-                >
-                    <MenuItem value="all">All</MenuItem>
-                    <MenuItem value="Completed">Completed</MenuItem>
-                    {/* Add other status options here */}
-                </TextField>
-            </div>
 
-            {/* Task Search */}
-            <div>
-                <TextField
-                    label="Search tasks"
-                    value={searchTerm}
-                    onChange={(e) => handleSearch(e.target.value)}
-                />
-            </div>
+export default function AntDesignGrid() {
+    const [paginationModel, setPaginationModel] = React.useState({
+        pageSize: PAGE_SIZE,
+        page: 0,
+    });
 
-            {/* Task List using DataGrid */}
-            <div style={{ height: 400, width: '100%' }}>
-                <DataGrid
-                    checkboxSelection
-                    rows={filteredTasks.map((task, index) => ({ ...task, id: index + 1 }))}
-                    columns={columns}
-                    onRowClick={(params) => handleTaskClick(params.row)}
-                />
-            </div>
-
-            {/* Task Details */}
-            {selectedTask && (
-                <div className="task-details">
-                    <h2>{selectedTask.txId}</h2>
-                    <p>Assigned To: {selectedTask.assignedTo}</p>
-                    <p>Date: {selectedTask.date}</p>
-                    <p>Status: {selectedTask.status}</p>
-                </div>
-            )}
+    return (
+        <div style={{ height: 400, width: '100%' }}>
+            <StyledDataGrid
+                checkboxSelection
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                pageSizeOptions={[PAGE_SIZE]}
+                slots={{
+                    pagination: CustomPagination,
+                }}
+                rows={mockDataTask}  // Use the data imported from mockDataTask.js
+                columns={[
+                    { field: 'txId', headerName: 'Transaction ID', width: 150 },
+                    { field: 'assignedTo', headerName: 'Assigned To', width: 150 },
+                    { field: 'date', headerName: 'Date', width: 120 },
+                    { field: 'priority', headerName: 'Priority', width: 120 },
+                    { field: 'status', headerName: 'Status', width: 120 },
+                    // Add more column configurations as needed
+                ]}
+                getRowId={(row) => row.txId} // Custom ID based on 'txId'
+            />
         </div>
     );
-};
-
-export default ViewTasksPage;
+}

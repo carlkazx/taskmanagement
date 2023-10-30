@@ -1,19 +1,35 @@
-import { Box, Button, TextField } from "@mui/material";
+import {Box, Button, styled, TextField, useTheme} from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import {tokens} from "../../theme";
+
 
 const Form = () => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     const handleFormSubmit = (values) => {
         console.log(values);
     };
 
+    const CustomDatePicker = styled(DatePicker)({
+        '& .MuiInputLabel-root': {
+            color: colors.grey["300"], // Change this to the desired text color
+        },
+        '& .MuiInputLabel-root.Mui-focused': {
+            color: colors.grey["300"], // Change this to the desired text color when focused
+        },
+    });
+
     return (
         <Box m="20px">
-            <Header title="CREATE USER" subtitle="Create a New User Profile" />
+            <Header title="CREATE USER"/>
 
             <Formik
                 onSubmit={handleFormSubmit}
@@ -44,15 +60,24 @@ const Form = () => {
                                 label="Name"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                value={values.firstName}
-                                name="firstName"
-                                error={!!touched.firstName && !!errors.firstName}
-                                helperText={touched.firstName && errors.firstName}
-                                sx={{ gridColumn: "span 2" }}
+                                value={values.name}
+                                name="name"
+                                error={!!touched.name && !!errors.name}
+                                helperText={touched.name && errors.name}
+                                sx={{ gridColumn: "span 1" }}
                                 InputLabelProps={{
-                                    style: {color: values.taskName ? 'white' : 'grey'}
+                                    style: {color: values.name ? 'white' : 'grey'}
                                 }}
                             />
+
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <CustomDatePicker
+                                    label="Start Date"
+                                    value={values.startDate}
+                                    onChange={(date) => handleChange({ target: { name: 'startDate', value: date } })}
+                                    sx={{ gridColumn: "span 1" }}
+                                />
+                            </LocalizationProvider>
 
                             <TextField
                                 fullWidth
@@ -65,11 +90,17 @@ const Form = () => {
                                 name="email"
                                 error={!!touched.email && !!errors.email}
                                 helperText={touched.email && errors.email}
-                                sx={{ gridColumn: "span 4" }}
+                                sx={{ gridColumn: "span 1" }}
                                 InputLabelProps={{
-                                    style: {color: values.taskName ? 'white' : 'grey'}
+                                    style: {color: values.email ? 'white' : 'grey'}
                                 }}
                             />
+                            <Box
+                                gridColumn="span 1"
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                            >
                             <TextField
                                 fullWidth
                                 variant="filled"
@@ -81,23 +112,40 @@ const Form = () => {
                                 name="contact"
                                 error={!!touched.contact && !!errors.contact}
                                 helperText={touched.contact && errors.contact}
-                                sx={{ gridColumn: "span 4" }}
+                                sx={{ gridColumn: "span 1" }}
                                 InputLabelProps={{
-                                    style: {color: values.taskName ? 'white' : 'grey'}
+                                    style: {color: values.contact ? 'white' : 'grey'}
                                 }}
                             />
+                            </Box>
                             <TextField
                                 fullWidth
                                 variant="filled"
                                 type="text"
-                                label="Address 1"
+                                label="Address"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 value={values.address1}
-                                name="address1"
-                                error={!!touched.address1 && !!errors.address1}
-                                helperText={touched.address1 && errors.address1}
-                                sx={{ gridColumn: "span 4" }}
+                                name="address"
+                                error={!!touched.address && !!errors.address}
+                                helperText={touched.address && errors.address}
+                                sx={{ gridColumn: "span 1" }}
+                                InputLabelProps={{
+                                    style: {color: values.address ? 'white' : 'grey'}
+                                }}
+                            />
+                            <TextField
+                                fullWidth
+                                variant="filled"
+                                type="text"
+                                label="City"
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                value={values.city}
+                                name="city"
+                                error={!!touched.city && !!errors.city}
+                                helperText={touched.city && errors.city}
+                                sx={{ gridColumn: "span 1" }}
                                 InputLabelProps={{
                                     style: {color: values.taskName ? 'white' : 'grey'}
                                 }}
@@ -106,16 +154,16 @@ const Form = () => {
                                 fullWidth
                                 variant="filled"
                                 type="text"
-                                label="Address 2"
+                                label="Zipcode"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                value={values.address2}
-                                name="address2"
-                                error={!!touched.address2 && !!errors.address2}
-                                helperText={touched.address2 && errors.address2}
-                                sx={{ gridColumn: "span 4" }}
+                                value={values.zipcode}
+                                name="zipcode"
+                                error={!!touched.zipcode && !!errors.zipcode}
+                                helperText={touched.zipcode && errors.zipcode}
+                                sx={{ gridColumn: "span 1" }}
                                 InputLabelProps={{
-                                    style: {color: values.taskName ? 'white' : 'grey'}
+                                    style: {color: values.zipcode ? 'white' : 'grey'}
                                 }}
                             />
                         </Box>
