@@ -1,6 +1,5 @@
 package com.example.taskmanagement.task;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,13 +9,12 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    // Controller methods
 
     private final TaskRepository taskRepository;
 
     @Autowired
     public TaskController(TaskRepository taskRepository) {
-        this.taskRepository =  taskRepository;
+        this.taskRepository = taskRepository;
     }
 
     @GetMapping
@@ -38,8 +36,7 @@ public class TaskController {
     public Task updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
-            task.setDescription(updatedTask.getDescription());
-            task.setCompleted(updatedTask.isCompleted());
+            task.setTitle(updatedTask.getTitle()); // Updated to use title instead of description
             return taskRepository.save(task);
         }
         return null;
@@ -49,7 +46,4 @@ public class TaskController {
     public void deleteTask(@PathVariable Long id) {
         taskRepository.deleteById(id);
     }
-
-
-
 }

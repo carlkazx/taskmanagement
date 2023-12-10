@@ -1,21 +1,21 @@
 package com.example.taskmanagement.employee;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employee_id")
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String email; // Example attribute: employee email
-    private String department; // Example attribute: employee department
-    // Add other attributes as needed
+    private String name; // Changed from first and last name to a single name
+    private String email;
+    private String contactNumber; // Added contact number
+    private String address; // Added address
+    private String postcode; // Added postcode
+    private String startDate; // Added start date
+    private String birthday; // Added birthday
 
     public Employee() {
     }
@@ -31,20 +31,12 @@ public class Employee {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -55,13 +47,46 @@ public class Employee {
         this.email = email;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getContactNumber() {
+        return contactNumber;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    // Remove methods for the removed attributes (e.g., getFirstName, setLastName, getDepartment, setDepartment)
     // Add getters and setters for other attributes as needed
 }

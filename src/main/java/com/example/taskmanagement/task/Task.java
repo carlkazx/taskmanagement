@@ -1,31 +1,25 @@
 package com.example.taskmanagement.task;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "task_id")
     private Long id;
-    private String title; // Added title attribute
-    private String description;
-    private LocalDate dueDate; // Added dueDate attribute
-    private boolean completed;
+    private String title; // Changed to only include task title
 
     public Task() {
     }
 
-    public Task(String title, String description, LocalDate dueDate) {
+    public Task(String title) {
         this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
     }
 
-    // Getters and setters for all attributes (including title and dueDate)
+    // Getters and setters for id and title only
     public Long getId() {
         return id;
     }
@@ -42,33 +36,7 @@ public class Task {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    // Removed other getters and setters
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    public void setFirstName(String firstName) {
-    }
-
-    public void setLastName(String lastName) {
-    }
+    // You may add equals(), hashCode(), and toString() methods as needed
 }
