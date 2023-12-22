@@ -1,6 +1,8 @@
 package com.example.taskmanagement.employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,20 +18,34 @@ public class EmployeeController {
     @Autowired
     private EmployeeSSEController employeeSSEController;
 
-    // Endpoint to create a new employee
+    // Endpoint to create a new employee with a specific employeeId
     @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee) {
-        System.out.println("Received data from frontend: " + employee.getName() + employee.getEmail() + employee.getContactNumber() + employee.getAddress());
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+        Long providedEmployeeId = employee.getEmployeeId();
+
+        // Check if the employeeId already exists in the database
+        if (employeeRepository.existsByEmployeeId(providedEmployeeId)) {
+            // Return a conflict response if the employeeId already exists
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
+
         try {
+            // Set the provided employeeId
+            employee.setEmployeeId(providedEmployeeId);
+
+            // Save the employee to the database
             Employee savedEmployee = employeeRepository.save(employee);
-            employeeSSEController.sendEmployeeUpdate(savedEmployee); // Send SSE update
-            return savedEmployee;
+
+            // Send SSE update
+            employeeSSEController.sendEmployeeUpdate(savedEmployee);
+
+            // Return a success response with the created employee
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployee);
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle the exception appropriately
-            // You might want to return an error response or log the exception
-            // For simplicity, I'm returning the original employee here; you may modify it as needed
-            return employee;
+            // Handle other exceptions appropriately
+            // For simplicity, returning a generic error response here
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -42,16 +58,16 @@ public class EmployeeController {
     }
 
     // Endpoint to retrieve an employee by ID
-    @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Long id) {
-        return employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException(id));
+    @GetMapping("/{employeeId}")
+    public Employee getEmployeeById(@PathVariable Long employeeId) {
+        return employeeRepository.findByEmployeeId(employeeId)
+                .orElseThrow(() -> new EmployeeNotFoundException(employeeId));
     }
 
     // Endpoint to update an existing employee by ID
-    @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
-        return employeeRepository.findById(id)
+    @PutMapping("/{employeeId}")
+    public Employee updateEmployee(@PathVariable Long employeeId, @RequestBody Employee updatedEmployee) {
+        return employeeRepository.findByEmployeeId(employeeId)
                 .map(employee -> {
                     employee.setName(updatedEmployee.getName());
                     // Update other attributes as needed
@@ -61,15 +77,15 @@ public class EmployeeController {
                     // Add updates for other attributes
                     return employeeRepository.save(employee);
                 })
-                .orElseThrow(() -> new EmployeeNotFoundException(id));
+                .orElseThrow(() -> new EmployeeNotFoundException(employeeId));
     }
 
     // Endpoint to delete an employee by ID
-    @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable Long id) {
-        if (!employeeRepository.existsById(id)) {
-            throw new EmployeeNotFoundException(id);
+    @DeleteMapping("/{employeeId}")
+    public void deleteEmployee(@PathVariable Long employeeId) {
+        if (!employeeRepository.existsByEmployeeId(employeeId)) {
+            throw new EmployeeNotFoundException(employeeId);
         }
-        employeeRepository.deleteById(id);
+        employeeRepository.deleteByEmployeeId(employeeId);
     }
 }
