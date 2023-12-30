@@ -36,7 +36,9 @@ public class TaskController {
     public Task updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
-            task.setTitle(updatedTask.getTitle()); // Updated to use title instead of description
+            task.setTitle(updatedTask.getTitle());
+            task.setEmployeeId(updatedTask.getEmployeeId());
+            task.setIssues(updatedTask.getIssues());
             return taskRepository.save(task);
         }
         return null;
