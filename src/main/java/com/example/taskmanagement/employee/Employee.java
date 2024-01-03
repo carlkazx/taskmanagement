@@ -8,19 +8,18 @@ import lombok.Setter;
 @Getter
 @Entity
 public class Employee {
-
     @Id
-    private Long employeeId;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
-    private String name; // Changed from first and last name to a single name
+
+    private Long employeeId; // If this is not the primary key, remove the @Id annotation
+    private String name;
     private String email;
-    private String contactNumber; // Added contact number
-    private String address; // Added address
-    private String postcode; // Added postcode
-    private String startDate; // Added start date
-    private String birthday; // Added birthday
+    private String contactNumber;
+    private String address;
+    private String postcode;
+    private String startDate;
+    private String birthday;
 
     public Employee() {
 
@@ -29,3 +28,6 @@ public class Employee {
     // Remove methods for the removed attributes (e.g., getFirstName, setLastName, getDepartment, setDepartment)
     // Add getters and setters for other attributes as needed
 }
+
+
+

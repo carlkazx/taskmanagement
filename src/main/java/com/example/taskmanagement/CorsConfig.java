@@ -14,8 +14,10 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:5173")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE");
+                        .allowedOrigins("http://localhost:5173") // Adjust as needed
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowCredentials(true) // Include if you're dealing with cookies or sessions
+                        .maxAge(3600); // Cache preflight requests for 1 hour, adjust as needed
             }
         };
     }
